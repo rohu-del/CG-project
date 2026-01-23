@@ -1,0 +1,33 @@
+int main() {
+    init_game();
+    int bird_x = 100, bird_y = HEIGHT / 2, bird_speed = 0;
+    int pipe_x = WIDTH, score = 0;
+    int pipe_y = rand() % (HEIGHT - PIPE_GAP - 100) + 50;
+
+    while (1) {
+        cleardevice();
+        draw_bird(bird_x, bird_y);
+        draw_pipe(pipe_x, pipe_y);
+        display_score(score);
+
+        if (kbhit() && getch() == ' ') bird_speed = -7;
+
+        update_bird(bird_y, bird_speed);
+        pipe_x -= 4;
+
+        if (pipe_x + PIPE_WIDTH < 0) {
+            pipe_x = WIDTH;
+            pipe_y = rand() % (HEIGHT - PIPE_GAP - 100) + 50;
+            score++;
+        }
+
+        if (check_collision(bird_x, bird_y, pipe_x, pipe_y)) {
+            outtextxy(WIDTH / 2 - 40, HEIGHT / 2, "GAME OVER");
+            break;
+        }
+        delay(20);
+    }
+    getch();
+    closegraph();
+    return 0;
+}
