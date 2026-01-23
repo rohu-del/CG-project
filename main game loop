@@ -1,32 +1,68 @@
-int main() {
-    init_game();
-    int bird_x = 100, bird_y = HEIGHT / 2, bird_speed = 0;
-    int pipe_x = WIDTH, score = 0;
+int main()
+{
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    srand(time(0));
+
+    int bird_x = 100;
+    int bird_y = HEIGHT / 2;
+    int bird_speed = 0;
+
+    int pipe_x = WIDTH;
     int pipe_y = rand() % (HEIGHT - PIPE_GAP - 100) + 50;
 
-    while (1) {
+    int score = 0;
+
+    while (1)
+    {
         cleardevice();
+
         draw_bird(bird_x, bird_y);
         draw_pipe(pipe_x, pipe_y);
-        display_score(score);
 
-        if (kbhit() && getch() == ' ') bird_speed = -7;
+        /* Keyboard input */
+        if (kbhit())
+        {
+            char ch = getch();
+            if (ch == ' ')
+            {
+                bird_speed = -7;   // jump
+            }
+        }
 
         update_bird(bird_y, bird_speed);
+
         pipe_x -= 4;
 
-        if (pipe_x + PIPE_WIDTH < 0) {
+        /* Reset pipe */
+        if (pipe_x + PIPE_WIDTH < 0)
+        {
             pipe_x = WIDTH;
             pipe_y = rand() % (HEIGHT - PIPE_GAP - 100) + 50;
             score++;
         }
 
-        if (check_collision(bird_x, bird_y, pipe_x, pipe_y)) {
-            outtextxy(WIDTH / 2 - 40, HEIGHT / 2, "GAME OVER");
-            break;
+        /* Collision detection */
+        if (bird_x + BIRD_WIDTH / 2 > pipe_x &&
+            bird_x - BIRD_WIDTH / 2 < pipe_x + PIPE_WIDTH)
+        {
+            if (bird_y - BIRD_HEIGHT / 2 < pipe_y ||
+                bird_y + BIRD_HEIGHT / 2 > pipe_y + PIPE_GAP)
+            {
+                outtextxy(WIDTH / 2 - 40, HEIGHT / 2, "GAME OVER");
+                break;
+            }
         }
+
+        /* Display score */
+        char score_str[30];
+        sprintf(score_str, "Score : %d", score);
+        outtextxy(10, 10, score_str);
+
         delay(20);
     }
+
     getch();
     closegraph();
     return 0;
