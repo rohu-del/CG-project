@@ -1,9 +1,9 @@
 //function to draw the bird at position(x,y)
 void draw_bird(int x, int y){
 
-setcolor(YELLOW);  //sets the outline color of the bird to yellow
+setcolor(YELLOW);                                //sets the outline color of the bird to yellow
 
-setfillstyle(SOLID_FILL,YELLOW);  //set solid yellow color to fill the bird
+setfillstyle(SOLID_FILL,YELLOW);                 //set solid yellow color to fill the bird
 
 fillellipse(x,y, BIRD_WIDTH /2,BIRD_HEIGHT/2); //draw and fills ellipse representing the bird
                                               // x,y is the center position of bird
@@ -12,9 +12,9 @@ fillellipse(x,y, BIRD_WIDTH /2,BIRD_HEIGHT/2); //draw and fills ellipse represen
 //function to draw the pipes at horizontal position x
 void draw_pipe(int x, int y){
 
-setcolor(GREEN);  //set the color of the pipe to green
+setcolor(GREEN);                            //set the color of the pipe to green
 
-rectangle(x,0,x + PIPE_WIDTH,y); //draw the upper pipe from top of screen to height y
+rectangle(x,0,x + PIPE_WIDTH,y);           //draw the upper pipe from top of screen to height y
 
 rectangle(x,y + PIPE_GAP,x+ PIPE_WIDTH,HEIGHT); //draw the lower pipe from bottom of gap to bottom of screen
 }
@@ -22,10 +22,10 @@ rectangle(x,y + PIPE_GAP,x+ PIPE_WIDTH,HEIGHT); //draw the lower pipe from botto
 //function to display the player's score on the screen
 void display_score(int score){
 
-char score_str[30]; //declares a character array to store the score text
+char score_str[30];                             //declares a character array to store the score text
 
-sprintf(score_str,"score:%d,score); //converts the score integer into a formatted string
+sprintf(score_str,"score:%d,score);            //converts the score integer into a formatted string
 
-outtextxy(10,10,score_str); //display the score text at screen position(10,10)
+outtextxy(10,10,score_str);                   //display the score text at screen position(10,10)
 }
 
