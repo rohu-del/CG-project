@@ -1,0 +1,69 @@
+int main() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "");
+
+    srand(time(0));
+    int bird_x = 100, bird_y = HEIGHT / 2, bird_speed = 0;
+    int pipe_x = WIDTH;
+    int pipe_y = rand() % (HEIGHT - PIPE_GAP - 120) + 50;
+    int score = 0;
+
+    int page = 0; // Toggle for double buffering
+
+    while (1) {
+        // --- DOUBLE BUFFERING START ---
+        setactivepage(page);        // Draw on the hidden page
+        setvisualpage(1 - page);    // Show the previous finished page
+        cleardevice();              // Clear the hidden page
+        // ------------------------------
+
+        draw_background();
+        draw_pipe(pipe_x, pipe_y);
+        draw_bird(bird_x, bird_y);
+
+        /* Score Display Overlay */
+        setfillstyle(SOLID_FILL, BLACK);
+        bar(5, 5, 130, 35);
+        setcolor(WHITE);
+        rectangle(5, 5, 130, 35);
+        char score_str[30];
+        sprintf(score_str, "SCORE: %d", score);
+        outtextxy(15, 15, score_str);
+
+        if (kbhit()) {
+            char ch = getch();
+            if (ch == ' ') bird_speed = -8;
+            if (ch == 27) break; 
+        }
+
+        update_bird(bird_y, bird_speed);
+        pipe_x -= 8; 
+
+        if (pipe_x + PIPE_WIDTH < 0) {
+            pipe_x = WIDTH;
+            pipe_y = rand() % (HEIGHT - PIPE_GAP - 120) + 50;
+            score++;
+        }
+
+        /* Collision detection */
+        if (bird_x + 10 > pipe_x && bird_x - 10 < pipe_x + PIPE_WIDTH) {
+            if (bird_y - 10 < pipe_y || bird_y + 10 > pipe_y + PIPE_GAP) {
+                setactivepage(page); // Ensure "Game Over" draws on the current page
+                setcolor(RED);
+                settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+                outtextxy(WIDTH / 2 - 100, HEIGHT / 2, "GAME OVER");
+                setvisualpage(page); // Show the game over screen
+                break;
+            }
+        }
+
+        // Flip the pages for the next frame
+        page = 1 - page;
+        
+        delay(20); 
+    }
+
+    getch();
+    closegraph();
+    return 0;
+}
