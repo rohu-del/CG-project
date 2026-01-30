@@ -1,0 +1,18 @@
+#include <graphics.h>   // Includes graphics functions (used for drawing shapes, colors, screen, etc.)
+#include <conio.h>      // Includes console input/output functions like getch()
+#include <stdlib.h>     // Includes standard library functions like rand(), srand(), malloc()
+#include <stdio.h>      // Includes standard input/output functions like printf()
+#include <time.h>       // Includes time-related functions like time()
+
+#define WIDTH 640        // Defines the width of the game window as 640 pixels
+#define HEIGHT 480       // Defines the height of the game window as 480 pixels
+#define BIRD_WIDTH 20    // Defines the width of the bird object as 20 pixels
+#define BIRD_HEIGHT 20   // Defines the height of the bird object as 20 pixels
+#define PIPE_WIDTH 60    // Defines the width of the pipe as 60 pixels
+#define PIPE_GAP 200     // Defines the vertical gap between top and bottom pipes
+
+void init_game() {       // Function to initialize the game settings
+    int gd = DETECT, gm; // gd: graphics driver (auto-detected), gm: graphics mode
+    initgraph(&gd, &gm, ""); // Initializes the graphics system and opens a graphics window
+    srand(time(0));      // Seeds the random number generator using current time
+}
